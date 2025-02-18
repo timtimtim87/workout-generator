@@ -1,4 +1,12 @@
 'use client';
+// Add right after 'use client';
+const DEBUG = true; // We can turn this off later
+
+function logDebug(...args) {
+  if (DEBUG) {
+    console.log(...args);
+  }
+}
 import React, { useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 
@@ -70,6 +78,44 @@ export default function Home() {
   };
 
   const generateWorkout = () => {
+    
+    
+    const generateWorkout = () => {
+      logDebug('Generate workout clicked');
+      try {
+        const usedExercises = new Set();
+        const supersets = [];
+        
+        for (let i = 0; i < supersetCount; i++) {
+          logDebug('Generating superset', i + 1);
+          const exercise1 = generateRandomExercise(usedExercises);
+          logDebug('Exercise 1:', exercise1);
+          if (!exercise1) {
+            logDebug('Failed to generate exercise 1');
+            return;
+          }
+          usedExercises.add(exercise1.name);
+          
+          const exercise2 = generateRandomExercise(usedExercises);
+          logDebug('Exercise 2:', exercise2);
+          if (!exercise2) {
+            logDebug('Failed to generate exercise 2');
+            return;
+          }
+          usedExercises.add(exercise2.name);
+          
+          supersets.push({
+            exerciseA: exercise1,
+            exerciseB: exercise2,
+          });
+        }
+        
+        logDebug('Setting workout:', supersets);
+        setWorkout(supersets);
+      } catch (error) {
+        console.error('Error generating workout:', error);
+      }
+    };
     const usedExercises = new Set();
     const supersets = [];
     
